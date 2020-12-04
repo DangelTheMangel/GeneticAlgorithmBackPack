@@ -11,19 +11,21 @@ public class main extends PApplet {
     Table itemInfo;
    public static ArrayList<Item> AllItemList = new ArrayList<Item>();
    ArrayList<Backpack> BackpackList = new ArrayList<Backpack>();
-   ArrayList<Backpack> BørneBassinet = new ArrayList<>();
+   ArrayList<Backpack> BorneBassinet = new ArrayList<>();
    int bedste1, bedste2;
 
+
     @Override
+
     public void setup() {
         itemInfo = loadTable("genstande.csv");
 
-        for(int i = 0; i<itemInfo.getRowCount();++i){
+        for(int i = 1; i<itemInfo.getRowCount();++i){
             AllItemList.add(new Item(itemInfo.getString(i,0),itemInfo.getInt(i,2),itemInfo.getInt(i,1)));
             System.out.println(AllItemList.get(AllItemList.size()-1).name);
         }
 
-        for(int i = 0; i<5000;++i){
+        for(int i = 0; i<2000;++i){
             BackpackList.add(new Backpack(this));
             for(int j = 0; j<random(1,AllItemList.size());++j){
                 BackpackList.get(BackpackList.size()-1).addItemToBackpack();
@@ -40,34 +42,57 @@ public class main extends PApplet {
             if(b.calWeigth()>5000){
                 BackpackList.remove(i);
             }
-
             if(b.calPrize()>bedste1) {
                 bedste2=bedste1;
                 bedste1=b.calPrize();
 
-                BørneBassinet.add(b);
+                BorneBassinet.add(b);
 
-                if(BørneBassinet.size()==3) {
-                    BørneBassinet.remove(2);
+                if(BorneBassinet.size()==3) {
+                    BorneBassinet.remove(2);
                 }
-            }
-        }
+
+
+        }}
         println(bedste1 + " og " + bedste2);
-        println("2nd: " + BørneBassinet.get(0).calPrize() + " 1st " + BørneBassinet.get(1).calPrize());
+
+
+            BackpackList.clear();
+            Backpack bp = mateing(BorneBassinet.get(0), BorneBassinet.get(1));
+        for(int i = 0; i<2000;++i){
+            BackpackList.add(mutation(bp));
+            }
+
+
+
+
     }
 
+    Backpack mateing(Backpack best,Backpack nestBest){
+        Backpack newGen = new Backpack(this);
+        for(int j = 0; j < (best.pickedList.size()-1)/2;++j){
+            newGen.pickedList.add(best.pickedList.get(j));
+        }
 
-    void mutation(ArrayList<Backpack> listen){
-        for(int i = 0 ; i< listen.size()-1;++i){
-            Backpack bp = listen.get(i);
+        for(int i = (best.pickedList.size()-1)/2; i < best.pickedList.size()-1;++i){
+            newGen.pickedList.add(best.pickedList.get(i));
+        }
+
+        return newGen;
+    }
+    Backpack mutation(Backpack bp){
+
             for(int j = 0; j < bp.pickedList.size();++j){
                 Item item = bp.pickedList.get(j);
-                int ran =(int) random(0,1000);
+                System.out.println("før mutation " + item.name);
+                int ran =(int) random(0,3);
                 if(ran == 2){
                     int rand = (int) random(0,AllItemList.size());
-                    listen.get(i).pickedList.set(j, AllItemList.get(rand));
+                    item = AllItemList.get(rand);
+
                 }
+                System.out.println("efter mutation " + item.name + "\n");
             }
-        }
+        return bp;
     }
 }
