@@ -39,16 +39,23 @@ public class main extends PApplet {
 
             if(b.calWeigth()>5000){
                 BackpackList.remove(i);
-            }else if(b.calPrize()>bedste1) {
+            }
+
+            if(b.calPrize()>bedste1) {
                 bedste2=bedste1;
                 bedste1=b.calPrize();
 
+                BørneBassinet.add(b);
 
+                if(BørneBassinet.size()==3) {
+                    BørneBassinet.remove(2);
+                }
             }
-
-            println(bedste1 + " og " + bedste2);
         }
+        println(bedste1 + " og " + bedste2);
+        println("2nd: " + BørneBassinet.get(0).calPrize() + " 1st " + BørneBassinet.get(1).calPrize());
     }
+
 
     void mutation(ArrayList<Backpack> listen){
         for(int i = 0 ; i< listen.size()-1;++i){
@@ -57,7 +64,7 @@ public class main extends PApplet {
                 Item item = bp.pickedList.get(j);
                 int ran =(int) random(0,1000);
                 if(ran == 2){
-                    int rand = (int) random(0,AllItemList.size();
+                    int rand = (int) random(0,AllItemList.size());
                     listen.get(i).pickedList.set(j, AllItemList.get(rand));
                 }
             }
