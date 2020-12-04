@@ -2,6 +2,7 @@ import processing.core.PApplet;
 import processing.data.Table;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class main extends PApplet {
     public static void main(String[] args) {
@@ -46,6 +47,20 @@ public class main extends PApplet {
             }
 
             println(bedste1 + " og " + bedste2);
+        }
+    }
+
+    void mutation(ArrayList<Backpack> listen){
+        for(int i = 0 ; i< listen.size()-1;++i){
+            Backpack bp = listen.get(i);
+            for(int j = 0; j < bp.pickedList.size();++j){
+                Item item = bp.pickedList.get(j);
+                int ran =(int) random(0,1000);
+                if(ran == 2){
+                    int rand = (int) random(0,AllItemList.size();
+                    listen.get(i).pickedList.set(j, AllItemList.get(rand));
+                }
+            }
         }
     }
 }
