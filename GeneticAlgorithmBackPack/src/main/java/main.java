@@ -6,13 +6,13 @@ import java.util.Random;
 
 public class main extends PApplet {
     public static void main(String[] args) {
-       PApplet.main("main");
+        PApplet.main("main");
     }
     Table itemInfo;
-   public static ArrayList<Item> AllItemList = new ArrayList<Item>();
-   ArrayList<Backpack> BackpackList = new ArrayList<Backpack>();
-   ArrayList<Backpack> BorneBassinet = new ArrayList<>();
-   int bedste1, bedste2;
+    public static ArrayList<Item> AllItemList = new ArrayList<Item>();
+    ArrayList<Backpack> BackpackList = new ArrayList<Backpack>();
+    ArrayList<Backpack> BorneBassinet = new ArrayList<>();
+    int bedste1, bedste2;
 
 
     @Override
@@ -38,38 +38,32 @@ public class main extends PApplet {
         }
 
         //Her tages de to bedste backpacks til at gå videre.
-        Survival(ArrayList<Backpack>()) {
-            for (int i = 0; i < BackpackList.size(); i++) {
-                Backpack b = BackpackList.get(i);
+        for (int i = 0; i < BackpackList.size(); i++) {
+            Backpack b = BackpackList.get(i);
 
-                if (b.calWeigth() > 5000) {
-                    BackpackList.remove(i);
-                }
-                if (b.calPrize() > bedste1) {
-                    bedste2 = bedste1;
-                    bedste1 = b.calPrize();
-
-                    BorneBassinet.add(b);
-
-                    if (BorneBassinet.size() == 3) {
-                        BorneBassinet.remove(2);
-                    }
-                }
+            if(b.calWeigth()>5000){
+                BackpackList.remove(i);
             }
-            println(bedste1 + " og " + bedste2);
+            if(b.calPrize()>bedste1) {
+                bedste2=bedste1;
+                bedste1=b.calPrize();
+
+                BorneBassinet.add(b);
+
+                if(BorneBassinet.size()==3) {
+                    BorneBassinet.remove(2);
+                }
+            }}
+        println(bedste1 + " og " + bedste2);
 
 
-            //Her bliver de muteret med vores funktion. Kig neden under.
-            BackpackList.clear();
-            Backpack bp = mateing(BorneBassinet.get(0), BorneBassinet.get(1));
-            for (int i = 0; i < 2000; ++i) {
-                BackpackList.add(mutation(bp));
-            }
-            //return(resultaterne);
-            //Vi skal selvfølgelig også have en funktion i survival funktionen der returner resultater og gemmer dem, til grafien.
-            //Vi har så denne survival funktion kørende i et for loop, et par gange. Lad os sige 25?
+        //Her bliver de muteret med vores funktion. Kig neden under.
+        BackpackList.clear();
+        Backpack bp = mateing(BorneBassinet.get(0), BorneBassinet.get(1));
+        for(int i = 0; i<2000;++i){
+            BackpackList.add(mutation(bp));
         }
-
+    }
 
     //Her laves der en ny backpack
     Backpack mateing(Backpack best,Backpack nestBest){
@@ -83,24 +77,22 @@ public class main extends PApplet {
         }
 
         return newGen;
-        }
-        return newGen;
-
+    }
 
     //Her er vores muterings funktion
     Backpack mutation(Backpack bp){
 
-            for(int j = 0; j < bp.pickedList.size();++j){
-                Item item = bp.pickedList.get(j);
-                System.out.println("før mutation " + item.name);
-                int ran =(int) random(0,3);
-                if(ran == 2){
-                    int rand = (int) random(0,AllItemList.size());
-                    item = AllItemList.get(rand);
+        for(int j = 0; j < bp.pickedList.size();++j){
+            Item item = bp.pickedList.get(j);
+            System.out.println("før mutation " + item.name);
+            int ran =(int) random(0,3);
+            if(ran == 2){
+                int rand = (int) random(0,AllItemList.size());
+                item = AllItemList.get(rand);
 
-                }
-                System.out.println("efter mutation " + item.name + "\n");
             }
+            System.out.println("efter mutation " + item.name + "\n");
+        }
         return bp;
     }
 }
