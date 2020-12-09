@@ -38,32 +38,38 @@ public class main extends PApplet {
         }
 
         //Her tages de to bedste backpacks til at gå videre.
-        for (int i = 0; i < BackpackList.size(); i++) {
-            Backpack b = BackpackList.get(i);
+        Survival(ArrayList<Backpack>()) {
+            for (int i = 0; i < BackpackList.size(); i++) {
+                Backpack b = BackpackList.get(i);
 
-            if(b.calWeigth()>5000){
-                BackpackList.remove(i);
-            }
-            if(b.calPrize()>bedste1) {
-                bedste2=bedste1;
-                bedste1=b.calPrize();
-
-                BorneBassinet.add(b);
-
-                if(BorneBassinet.size()==3) {
-                    BorneBassinet.remove(2);
+                if (b.calWeigth() > 5000) {
+                    BackpackList.remove(i);
                 }
-        }}
-        println(bedste1 + " og " + bedste2);
+                if (b.calPrize() > bedste1) {
+                    bedste2 = bedste1;
+                    bedste1 = b.calPrize();
 
+                    BorneBassinet.add(b);
 
-        //Her bliver de muteret med vores funktion. Kig neden under.
-        BackpackList.clear();
-            Backpack bp = mateing(BorneBassinet.get(0), BorneBassinet.get(1));
-        for(int i = 0; i<2000;++i){
-            BackpackList.add(mutation(bp));
+                    if (BorneBassinet.size() == 3) {
+                        BorneBassinet.remove(2);
+                    }
+                }
             }
-    }
+            println(bedste1 + " og " + bedste2);
+
+
+            //Her bliver de muteret med vores funktion. Kig neden under.
+            BackpackList.clear();
+            Backpack bp = mateing(BorneBassinet.get(0), BorneBassinet.get(1));
+            for (int i = 0; i < 2000; ++i) {
+                BackpackList.add(mutation(bp));
+            }
+            //return(resultaterne);
+            //Vi skal selvfølgelig også have en funktion i survival funktionen der returner resultater og gemmer dem, til grafien.
+            //Vi har så denne survival funktion kørende i et for loop, et par gange. Lad os sige 25?
+        }
+
 
     //Her laves der en ny backpack
     Backpack mateing(Backpack best,Backpack nestBest){
@@ -77,7 +83,9 @@ public class main extends PApplet {
         }
 
         return newGen;
-    }
+        }
+        return newGen;
+
 
     //Her er vores muterings funktion
     Backpack mutation(Backpack bp){
