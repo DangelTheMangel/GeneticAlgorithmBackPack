@@ -14,29 +14,34 @@ public class main extends PApplet {
     ArrayList<Backpack> BorneBassinet = new ArrayList<>();
     int bedste1, bedste2;
 
+    @Override
+    public void settings() {
+        size(500,500);
+    }
 
     @Override
     public void setup() {
-        itemInfo = loadTable("genstande.csv");
 
-        //Her laves items
-        for(int i = 1; i<itemInfo.getRowCount();++i){
-            AllItemList.add(new Item(itemInfo.getString(i,0),itemInfo.getInt(i,2),itemInfo.getInt(i,1)));
-            System.out.println(AllItemList.get(AllItemList.size()-1).name);
-        }
+        startgen();
+        laverIndividere(2000);
+        findTheBestAndMakePArring();
 
-        //Her laves backpacks
-        for(int i = 0; i<2000;++i){
-            BackpackList.add(new Backpack(this));
-            for(int j = 0; j<random(1,AllItemList.size());++j){
-                BackpackList.get(BackpackList.size()-1).addItemToBackpack();
-            }
+    }
+
+    @Override
+    public void draw() {
 
 
+    }
 
-            System.out.println("Samlet pris: " + BackpackList.get(BackpackList.size()-1).calPrize() + " Samlet vægt: " + BackpackList.get(BackpackList.size()-1).calWeigth());
-        }
+    @Override
+    public void mouseClicked() {
+        findTheBestAndMakePArring();
+        System.out.println("vægt: "+BorneBassinet.get(1).calWeigth() + " Prices: " + BorneBassinet.get(1).calPrize() + "\n"
+                +"vægt: "+BorneBassinet.get(1).calWeigth() + " Prices: " + BorneBassinet.get(1).calPrize() + "\n");
+    }
 
+    void findTheBestAndMakePArring(){
         //Her tages de to bedste backpacks til at gå videre.
         for (int i = 0; i < BackpackList.size(); i++) {
             Backpack b = BackpackList.get(i);
@@ -62,6 +67,29 @@ public class main extends PApplet {
         Backpack bp = mateing(BorneBassinet.get(0), BorneBassinet.get(1));
         for(int i = 0; i<2000;++i){
             BackpackList.add(mutation(bp));
+        }
+    }
+    void laverIndividere(int k){
+        //Her laves backpacks
+        for(int i = 0; i<k;++i){
+            BackpackList.add(new Backpack(this));
+            for(int j = 0; j<random(1,AllItemList.size());++j){
+                BackpackList.get(BackpackList.size()-1).addItemToBackpack();
+            }
+
+
+
+            System.out.println("Samlet pris: " + BackpackList.get(BackpackList.size()-1).calPrize() + " Samlet vægt: " + BackpackList.get(BackpackList.size()-1).calWeigth());
+        }
+    }
+
+    void startgen(){
+        itemInfo = loadTable("genstande.csv");
+
+        //Her laves items
+        for(int i = 1; i<itemInfo.getRowCount();++i){
+            AllItemList.add(new Item(itemInfo.getString(i,0),itemInfo.getInt(i,2),itemInfo.getInt(i,1)));
+            System.out.println(AllItemList.get(AllItemList.size()-1).name);
         }
     }
 
