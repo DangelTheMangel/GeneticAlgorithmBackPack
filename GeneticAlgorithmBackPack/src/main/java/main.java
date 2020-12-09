@@ -16,15 +16,16 @@ public class main extends PApplet {
 
 
     @Override
-
     public void setup() {
         itemInfo = loadTable("genstande.csv");
 
+        //Her laves items
         for(int i = 1; i<itemInfo.getRowCount();++i){
             AllItemList.add(new Item(itemInfo.getString(i,0),itemInfo.getInt(i,2),itemInfo.getInt(i,1)));
             System.out.println(AllItemList.get(AllItemList.size()-1).name);
         }
 
+        //Her laves backpacks
         for(int i = 0; i<2000;++i){
             BackpackList.add(new Backpack(this));
             for(int j = 0; j<random(1,AllItemList.size());++j){
@@ -36,6 +37,7 @@ public class main extends PApplet {
             System.out.println("Samlet pris: " + BackpackList.get(BackpackList.size()-1).calPrize() + " Samlet vægt: " + BackpackList.get(BackpackList.size()-1).calWeigth());
         }
 
+        //Her tages de to bedste backpacks til at gå videre.
         for (int i = 0; i < BackpackList.size(); i++) {
             Backpack b = BackpackList.get(i);
 
@@ -51,23 +53,19 @@ public class main extends PApplet {
                 if(BorneBassinet.size()==3) {
                     BorneBassinet.remove(2);
                 }
-
-
         }}
         println(bedste1 + " og " + bedste2);
 
 
-            BackpackList.clear();
+        //Her bliver de muteret med vores funktion. Kig neden under.
+        BackpackList.clear();
             Backpack bp = mateing(BorneBassinet.get(0), BorneBassinet.get(1));
         for(int i = 0; i<2000;++i){
             BackpackList.add(mutation(bp));
             }
-
-
-
-
     }
 
+    //Her laves der en ny backpack
     Backpack mateing(Backpack best,Backpack nestBest){
         Backpack newGen = new Backpack(this);
         for(int j = 0; j < (best.pickedList.size()-1)/2;++j){
@@ -80,6 +78,8 @@ public class main extends PApplet {
 
         return newGen;
     }
+
+    //Her er vores muterings funktion
     Backpack mutation(Backpack bp){
 
             for(int j = 0; j < bp.pickedList.size();++j){
