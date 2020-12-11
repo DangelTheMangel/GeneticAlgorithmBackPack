@@ -1,5 +1,6 @@
 import processing.core.PApplet;
 import processing.data.Table;
+import sun.jvm.hotspot.gc.shared.Generation;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,6 +12,7 @@ public class main extends PApplet {
     public static ArrayList<Item> AllItemList = new ArrayList<Item>();
     Generation gen = new Generation(this);
     Table itemInfo;
+    float dist;
 //!"
     @Override
     public void settings() {
@@ -45,7 +47,7 @@ public class main extends PApplet {
      /*   findTheBestAndMakePArring();
         System.out.println("vægt: "+BorneBassinet.get(1).calWeigth() + " Prices: " + BorneBassinet.get(1).calPrize() + "\n"
                 +"vægt: "+BorneBassinet.get(1).calWeigth() + " Prices: " + BorneBassinet.get(1).calPrize() + "\n");
-
+*/
         dist+=10;
 
         if(dist>=width-10) {
@@ -53,7 +55,7 @@ public class main extends PApplet {
             dist=0;
         }
 
-        rect(dist,height,10,-bedste1/10);*/
+        rect(dist,height,10,/*børne bassin her*/ /10);
     }
 
     void makeItem(){

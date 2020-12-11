@@ -44,7 +44,7 @@ public class Generation {
                 BorneBassinet.add(b);
 
                 if(BorneBassinet.size()==3) {
-                    BorneBassinet.remove(2);
+                    BorneBassinet.remove(0);
                 }
             }}
         p.println(bedste1 + " og " + bedste2);
