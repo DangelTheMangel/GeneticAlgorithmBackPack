@@ -3,13 +3,15 @@ import processing.core.PApplet;
 import processing.data.Table;
 import java.util.ArrayList;
 
-public class Generation {
+public class GenerationB {
     PApplet p;
 
     ArrayList<Backpack> BackpackList = new ArrayList<Backpack>();
     public static ArrayList<Backpack> BorneBassinet = new ArrayList<>();
     int bedste1, bedste2;
-    Generation(PApplet p){
+
+
+    GenerationB(PApplet p){
         this.p = p;
     }
 

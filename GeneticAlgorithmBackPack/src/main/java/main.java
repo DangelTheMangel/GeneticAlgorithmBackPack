@@ -2,6 +2,7 @@ import processing.core.PApplet;
 import processing.data.Table;
 import sun.jvm.hotspot.gc.shared.Generation;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -10,7 +11,7 @@ public class main extends PApplet {
         PApplet.main("main");
     }
     public static ArrayList<Item> AllItemList = new ArrayList<Item>();
-    Generation gen = new Generation(this);
+    GenerationB gen = new GenerationB(this);
     Table itemInfo;
     float dist;
 //!"
@@ -22,7 +23,7 @@ public class main extends PApplet {
     @Override
     public void setup() {
         makeItem();
-       gen.startgen(2000);
+     gen.startgen(2000);
         gen.printOutAllInfo();
         System.out.println("\n\n " +
                 "-----------------------------------------------------------------------------------------------------------------------------" +
@@ -55,7 +56,7 @@ public class main extends PApplet {
             dist=0;
         }
 
-        rect(dist,height,10,/*børne bassin her*/ /10);
+       rect(dist,height,10, gen.getBorneBassinet().get(0).calPrize() /10);
     }
 
     void makeItem(){
