@@ -50,29 +50,32 @@ public class Generation {
         p.println(bedste1 + " og " + bedste2);
         }
 
-
-    Backpack mutation(Backpack bp){
-
-        for(int j = 0; j < bp.pickedList.size();++j){
-            Item item = bp.pickedList.get(j);
-            System.out.println("før mutation " + item.name);
-            int ran =(int) p.random(0,3);
-            if(ran == 2){
-                int rand = (int) p.random(0,main.AllItemList.size());
-                item = main.AllItemList.get(rand);
-
-            }
-            System.out.println("efter mutation " + item.name + "\n");
+    void mutataeAll(){
+        for(int i = 0 ; i<BackpackList.size()-1;++i){
+            BackpackList.set(i,mutationSingelOne(BackpackList.get(i))) ;
         }
+    }
+    Backpack mutationSingelOne(Backpack bp){
+        for (int i = 0; i < BackpackList.size(); i++){
+            Backpack b = BackpackList.get(i);
+            for(int j = 0; j < b.pickedList.size();++j){
+
+                if(p.random(1) < 0.01){
+                    b.pickedList.set(j, main.AllItemList.get((int)p.random(0,main.AllItemList.size()-1))) ;
+                }
+            }
+        }
+
         return bp;
     }
     void parring(){
 
         //Her bliver de muteret med vores funktion. Kig neden under.
         BackpackList.clear();
-        Backpack bp = sex(BorneBassinet.get(0), BorneBassinet.get(1));
+
         for(int i = 0; i<2000;++i){
-            BackpackList.add(mutation(bp));
+            Backpack bp = sex(mutationSingelOne(BorneBassinet.get(0)), mutationSingelOne(BorneBassinet.get(1)));
+            BackpackList.add(mutationSingelOne(bp));
         }
     }
 

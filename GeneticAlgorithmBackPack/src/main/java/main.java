@@ -21,8 +21,12 @@ public class main extends PApplet {
     public void setup() {
         makeItem();
        gen.startgen(2000);
+        gen.printOutAllInfo();
+        System.out.println("\n\n -----------------------------------------------------------------------------------------------------------------------------\n\n");
+        gen.removeBadOne();
         gen.getParrents();
         gen.parring();
+        gen.mutataeAll();
         gen.printOutAllInfo();
 
 
