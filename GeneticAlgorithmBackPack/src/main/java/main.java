@@ -11,7 +11,7 @@ public class main extends PApplet {
     public static ArrayList<Item> AllItemList = new ArrayList<Item>();
     Generation gen = new Generation(this);
     Table itemInfo;
-
+//!"
     @Override
     public void settings() {
         size(500,500);

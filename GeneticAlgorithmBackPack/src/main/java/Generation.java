@@ -98,7 +98,7 @@ public class Generation {
 
             System.out.println(consolPrintout);
         }
-    }
+    }//
     /*
     void findTheBestAndMakePArring(){
         //Her tages de to bedste backpacks til at gå videre.
