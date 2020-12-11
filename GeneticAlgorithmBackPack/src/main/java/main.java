@@ -1,6 +1,5 @@
 import processing.core.PApplet;
 import processing.data.Table;
-import sun.jvm.hotspot.gc.shared.Generation;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ public class main extends PApplet {
 
     @Override
     public void setup() {
+        background(0);
         makeItem();
      gen.startgen(2000);
         gen.printOutAllInfo();
@@ -56,7 +56,7 @@ public class main extends PApplet {
             dist=0;
         }
 
-       rect(dist,height,10, gen.getBorneBassinet().get(0).calPrize() /10);
+       rect(dist,height,10, -gen.getBorneBassinet().get(0).calPrize() /10);
     }
 
     void makeItem(){
