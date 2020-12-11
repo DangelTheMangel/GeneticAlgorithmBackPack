@@ -29,11 +29,15 @@ public class main extends PApplet {
         laverIndividere(2000);
         findTheBestAndMakePArring();
 
+        background(0);
+
     }
 
     @Override
     public void draw() {
-
+        textSize(20);
+        textAlign(CENTER);
+        text("Tryk på den er mus for at få en ny generation",width/2,height/2);
 
     }
 
@@ -50,7 +54,7 @@ public class main extends PApplet {
             dist=0;
         }
 
-        rect(dist,height,10,-bedste1/10);
+        rect(dist,height,10,-BorneBassinet.get(0).calPrize()/10);
     }
 
     void findTheBestAndMakePArring(){
@@ -61,7 +65,7 @@ public class main extends PApplet {
             if(b.calWeigth()>5000){
                 BackpackList.remove(i);
             }
-            if(b.calPrize()>bedste1) {
+            if(b.calPrize()>bedste1) { // virker den her
                 bedste2=bedste1;
                 bedste1=b.calPrize();
 
