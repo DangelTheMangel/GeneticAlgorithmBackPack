@@ -1,10 +1,10 @@
 import processing.core.PApplet;
 import processing.data.Table;
-import sun.jvm.hotspot.gc.shared.Generation;
 
-import java.io.PrintStream;
+
+
 import java.util.ArrayList;
-import java.util.Random;
+
 
 public class main extends PApplet {
     public static void main(String[] args) {
@@ -48,7 +48,10 @@ public class main extends PApplet {
      /*   findTheBestAndMakePArring();
         System.out.println("vægt: "+BorneBassinet.get(1).calWeigth() + " Prices: " + BorneBassinet.get(1).calPrize() + "\n"
                 +"vægt: "+BorneBassinet.get(1).calWeigth() + " Prices: " + BorneBassinet.get(1).calPrize() + "\n");
-*/
+*/      gen.removeBadOne();
+        gen.getParrents();
+        gen.parring();
+        gen.mutataeAll();
         dist+=10;
 
         if(dist>=width-10) {
