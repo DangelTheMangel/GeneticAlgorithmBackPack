@@ -22,7 +22,9 @@ public class main extends PApplet {
         makeItem();
        gen.startgen(2000);
         gen.printOutAllInfo();
-        System.out.println("\n\n -----------------------------------------------------------------------------------------------------------------------------\n\n");
+        System.out.println("\n\n " +
+                "-----------------------------------------------------------------------------------------------------------------------------" +
+                "\n\n");
         gen.removeBadOne();
         gen.getParrents();
         gen.parring();
@@ -63,7 +65,7 @@ public class main extends PApplet {
             System.out.println(AllItemList.get(AllItemList.size()-1).name);
         }
     }
-
+/*dkhfgvwr ugbjerahkg orkæg isfjl gy  kj  rsm, n hbftuygnufylæerthnkryjhfhjohjhg,kh gmlnbl,hbnklv bmn,jhlkorfhbjde jhnblbrftlmnedlokmborfjndeakx c*/
 
 
 }

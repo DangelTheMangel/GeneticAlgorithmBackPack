@@ -7,7 +7,7 @@ public class Generation {
     PApplet p;
 
     ArrayList<Backpack> BackpackList = new ArrayList<Backpack>();
-    ArrayList<Backpack> BorneBassinet = new ArrayList<>();
+    public static ArrayList<Backpack> BorneBassinet = new ArrayList<>();
     int bedste1, bedste2;
     Generation(PApplet p){
         this.p = p;
@@ -101,7 +101,13 @@ public class Generation {
 
             System.out.println(consolPrintout);
         }
-    }//
+    }
+
+    ArrayList<Backpack> getBorneBassinet(){
+        return BorneBassinet;
+    }
+
+    //
     /*
     void findTheBestAndMakePArring(){
         //Her tages de to bedste backpacks til at gå videre.
