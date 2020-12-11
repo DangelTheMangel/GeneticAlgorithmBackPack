@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class main extends PApplet {
-
+    public static void main(String[] args) {
+        PApplet.main("main");
+    }
     public static ArrayList<Item> AllItemList = new ArrayList<Item>();
-
+    Generation gen = new Generation(this);
+    Table itemInfo;
 
     @Override
     public void settings() {
@@ -16,7 +19,11 @@ public class main extends PApplet {
 
     @Override
     public void setup() {
-
+        makeItem();
+       gen.startgen(2000);
+        gen.getParrents();
+        gen.parring();
+        gen.printOutAllInfo();
 
 
     }
@@ -41,6 +48,16 @@ public class main extends PApplet {
         }
 
         rect(dist,height,10,-bedste1/10);*/
+    }
+
+    void makeItem(){
+        itemInfo = loadTable("genstande.csv");
+
+        //Her laves items
+        for(int i = 1; i<itemInfo.getRowCount();++i){
+            AllItemList.add(new Item(itemInfo.getString(i,0),itemInfo.getInt(i,2),itemInfo.getInt(i,1)));
+            System.out.println(AllItemList.get(AllItemList.size()-1).name);
+        }
     }
 
 

@@ -1,21 +1,104 @@
 import processing.core.PApplet;
-import processing.data.Table;
 
+import processing.data.Table;
 import java.util.ArrayList;
 
 public class Generation {
     PApplet p;
-    Table itemInfo;
+
     ArrayList<Backpack> BackpackList = new ArrayList<Backpack>();
     ArrayList<Backpack> BorneBassinet = new ArrayList<>();
     int bedste1, bedste2;
-
-    //visuelle ints
-    int dist;
     Generation(PApplet p){
         this.p = p;
     }
 
+    void startgen(int k){
+        //Her laves backpacks
+        for(int i = 0; i<k;++i){
+            BackpackList.add(new Backpack(p));
+            for(int j = 0; j<p.random(1,main.AllItemList.size());++j){
+                BackpackList.get(BackpackList.size()-1).addItemToBackpack();
+            }
+
+
+
+            System.out.println("Samlet pris: " + BackpackList.get(BackpackList.size()-1).calPrize() + " Samlet vægt: " + BackpackList.get(BackpackList.size()-1).calWeigth());
+        }
+    }
+    void removeBadOne(){
+        for (int i = 0; i < BackpackList.size(); i++) {
+            Backpack b = BackpackList.get(i);
+            if(b.calWeigth()>5000){
+                BackpackList.remove(i);
+            }
+        }
+    }
+    void getParrents(){
+        for (int i = 0; i < BackpackList.size(); i++) {
+            Backpack b = BackpackList.get(i);
+            if(b.calPrize()>bedste1) {
+                bedste2=bedste1;
+                bedste1=b.calPrize();
+
+                BorneBassinet.add(b);
+
+                if(BorneBassinet.size()==3) {
+                    BorneBassinet.remove(2);
+                }
+            }}
+        p.println(bedste1 + " og " + bedste2);
+        }
+
+
+    Backpack mutation(Backpack bp){
+
+        for(int j = 0; j < bp.pickedList.size();++j){
+            Item item = bp.pickedList.get(j);
+            System.out.println("før mutation " + item.name);
+            int ran =(int) p.random(0,3);
+            if(ran == 2){
+                int rand = (int) p.random(0,main.AllItemList.size());
+                item = main.AllItemList.get(rand);
+
+            }
+            System.out.println("efter mutation " + item.name + "\n");
+        }
+        return bp;
+    }
+    void parring(){
+
+        //Her bliver de muteret med vores funktion. Kig neden under.
+        BackpackList.clear();
+        Backpack bp = sex(BorneBassinet.get(0), BorneBassinet.get(1));
+        for(int i = 0; i<2000;++i){
+            BackpackList.add(mutation(bp));
+        }
+    }
+
+    Backpack sex(Backpack best,Backpack nestBest){
+        Backpack newGen = new Backpack(p);
+        for(int j = 0; j < (best.pickedList.size()-1)/2;++j){
+            newGen.pickedList.add(best.pickedList.get(j));
+        }
+
+        for(int i = (best.pickedList.size()-1)/2; i < best.pickedList.size()-1;++i){
+            newGen.pickedList.add(best.pickedList.get(i));
+        }
+
+        return newGen;
+    }
+
+    void printOutAllInfo(){
+        for(int i = 0 ; i<BackpackList.size()-1;++i){
+            Backpack b = BackpackList.get(i);
+            int price = b.calPrize();
+            int weight = b.calWeigth();
+            String consolPrintout = "Backpack: " + i +" Price: " + price + " Weight: " + weight;
+
+            System.out.println(consolPrintout);
+        }
+    }
     /*
     void findTheBestAndMakePArring(){
         //Her tages de to bedste backpacks til at gå videre.
@@ -45,29 +128,9 @@ public class Generation {
             BackpackList.add(mutation(bp));
         }
     }
-    void laverIndividere(int k){
-        //Her laves backpacks
-        for(int i = 0; i<k;++i){
-            BackpackList.add(new Backpack(this));
-            for(int j = 0; j<random(1,AllItemList.size());++j){
-                BackpackList.get(BackpackList.size()-1).addItemToBackpack();
-            }
 
 
 
-            System.out.println("Samlet pris: " + BackpackList.get(BackpackList.size()-1).calPrize() + " Samlet vægt: " + BackpackList.get(BackpackList.size()-1).calWeigth());
-        }
-    }
-
-    void startgen(){
-        itemInfo = loadTable("genstande.csv");
-
-        //Her laves items
-        for(int i = 1; i<itemInfo.getRowCount();++i){
-            AllItemList.add(new Item(itemInfo.getString(i,0),itemInfo.getInt(i,2),itemInfo.getInt(i,1)));
-            System.out.println(AllItemList.get(AllItemList.size()-1).name);
-        }
-    }
 
     //Her laves der en ny backpack
     Backpack mateing(Backpack best,Backpack nestBest){
