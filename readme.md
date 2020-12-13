@@ -11,5 +11,7 @@ Her er Casper og Christians super seje algoritme der har til formål at pakke en
 
 **- Målet var at opnå den optimale pakning af rygsækken, så vi havde så meget værdi som muligt, mens vi overholdte rygsækkens vægtbegrænsning.**
 
+**- Man måtte kun have en af være genstan**
+
 
 Du benytter programmet ved at klikke med musen  på knappen "Add Generations" for at lave og visualisere en ny generation.
