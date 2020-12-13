@@ -9,18 +9,19 @@ public class main extends PApplet {
 
     public static ArrayList<Item> allItemList = new ArrayList<Item>();
     GenerationB gen = new GenerationB(this);
-    Graph graph = new Graph(this);
+    ProcGraph graph = new ProcGraph(this,10,10,1260,700);
     Table itemInfo;
     float dist;
 //!"
     @Override
     public void settings() {
-        size(500,500);
+        size(1280,720);
     }
 
     @Override
     public void setup() {
-        background(0);
+
+
         makeItem();
         gen.startgen(1500);
         gen.removeBadOnes();
@@ -30,11 +31,19 @@ public class main extends PApplet {
                 "-----------------------------------------------------------------------------------------------------------------------------" +
                 "\n\n");
 
-        for (int i=0; i<100; ++i) {
+        for (int i=0; i<20000; ++i) {
             gen.nextGeneration();
             int price = gen.getBestPrice();
-            gen.printOutAllInfo();
-            System.out.println("Iteration: " + i + " , price: " + price);
+           // gen.printOutAllInfo();
+            GenData data = new GenData(i,price);
+            graph.IndputList.add(data);
+            System.out.println("Iteration: " + i + ", price: " + price);
+
+            /*for (int k=0; k<gen.backpackList.size(); ++k) {
+                System.out.print(gen.backpackList.get(k).calPrize() + " (" + gen.backpackList.get(k).calWeight() +"), ");
+            }
+            System.out.println();*/
+
         }
 
     /*    gen.removeBadOnes();
@@ -48,8 +57,7 @@ public class main extends PApplet {
     public void draw() {
         clear();
         background(200);
-
-
+        graph.draw();
     }
 
     @Override

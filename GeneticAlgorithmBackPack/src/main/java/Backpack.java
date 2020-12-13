@@ -45,9 +45,9 @@ public class Backpack {
     }
 
     void mutate() {
-        for(int j = 0; j < itemList.size(); ++j){
+        for(int j = 0; j < itemList.size(); ++j) {
             Item item = itemList.get(j);
-            if(p.random(1) < 0.10){
+            if(p.random(1) < 0.5){
                 item.setInclude(!item.include);
             }
         }
