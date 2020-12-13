@@ -1,104 +1,129 @@
+import org.apache.commons.lang.ObjectUtils;
 import processing.core.PApplet;
 
-import processing.data.Table;
 import java.util.ArrayList;
 
 public class GenerationB {
     PApplet p;
 
-    ArrayList<Backpack> BackpackList = new ArrayList<Backpack>();
-    public static ArrayList<Backpack> BorneBassinet = new ArrayList<>();
+    ArrayList<Backpack> backpackList = new ArrayList<Backpack>();
+    public static ArrayList<Backpack> borneBassinet = new ArrayList<>();
     int bedste1, bedste2;
-
 
     GenerationB(PApplet p){
         this.p = p;
     }
 
-    void startgen(int k){
+    void startgen(int numGen){
         //Her laves backpacks
-        for(int i = 0; i<k;++i){
-            BackpackList.add(new Backpack(p));
-            for(int j = 0; j<p.random(1,main.AllItemList.size());++j){
-                BackpackList.get(BackpackList.size()-1).addItemToBackpack();
+        for (int i = 0; i<numGen; ++i) {
+            Backpack backpack = new Backpack(p);
+            backpackList.add(backpack);
+
+            for (int j = 0; j < main.allItemList.size(); ++j) {
+                Item item = new Item(main.allItemList.get(j));
+                item.setInclude(Math.random() > .5);
+                backpack.addItemToBackpack(item);
             }
 
-
-
-            System.out.println("Samlet pris: " + BackpackList.get(BackpackList.size()-1).calPrize() + " Samlet vægt: " + BackpackList.get(BackpackList.size()-1).calWeigth());
+            System.out.println("Samlet pris: " + backpack.calPrize() + " Samlet vægt: " + backpack.calWeight());
         }
     }
-    void removeBadOne(){
-        for (int i = 0; i < BackpackList.size(); i++) {
-            Backpack b = BackpackList.get(i);
-            if(b.calWeigth()>5000){
-                BackpackList.remove(i);
+
+    void nextGeneration() {
+        ArrayList<Backpack> newGeneration = new ArrayList<Backpack>();
+
+        for (int i=0; i< 500; ++i) {
+            if (backpackList.size() < 2)
+                break;
+
+            Backpack bp1 = getAndRemoveBest();
+            Backpack bp2 = getAndRemoveBest();
+
+            Backpack bpChild = sex(bp1, bp2);
+            newGeneration.add(bp1);
+            newGeneration.add(bp2);
+            newGeneration.add(bpChild);
+        }
+
+        backpackList = newGeneration;
+        removeBadOnes();
+    }
+
+    int getBestPrice() {
+        int bestPrice = -1;
+        for (int i=0; i<backpackList.size(); ++i) {
+            Backpack backpack = backpackList.get(i);
+            bestPrice = Math.max(bestPrice, backpack.calPrize());
+        }
+        return bestPrice;
+    }
+
+    void removeBadOnes() {
+        for (int i = 0; i < backpackList.size(); i++) {
+            Backpack b = backpackList.get(i);
+            if(b.calWeight()>5000){
+                backpackList.remove(i);
             }
         }
     }
-    void getParrents(){
-        for (int i = 0; i < BackpackList.size(); i++) {
-            Backpack b = BackpackList.get(i);
+
+    Backpack getAndRemoveBest() {
+        int maxPrice = -1;
+        int maxIdx = -1;
+
+        for (int i=0; i<backpackList.size(); ++i) {
+            Backpack backpack = backpackList.get(i);
+            if (backpack.calPrize() > maxPrice){
+                maxIdx = i;
+                maxPrice = backpack.calPrize();
+            }
+        }
+
+        if (maxIdx >= 0) {
+            Backpack bestBP = backpackList.get(maxIdx);
+            backpackList.remove(maxIdx);
+            return bestBP;
+        }
+        return null;
+    }
+
+    void getParents() {
+        for (int i = 0; i < backpackList.size(); i++) {
+            Backpack b = backpackList.get(i);
             if(b.calPrize()>bedste1) {
                 bedste2=bedste1;
                 bedste1=b.calPrize();
 
-                BorneBassinet.add(b);
+                borneBassinet.add(b);
 
-                if(BorneBassinet.size()==3) {
-                    BorneBassinet.remove(0);
+                if(borneBassinet.size()==3) {
+                    borneBassinet.remove(0);
                 }
             }}
         p.println(bedste1 + " og " + bedste2);
         }
 
-    void mutataeAll(){
-        for(int i = 0 ; i<BackpackList.size()-1;++i){
-            BackpackList.set(i,mutationSingelOne(BackpackList.get(i))) ;
-        }
-    }
-    Backpack mutationSingelOne(Backpack bp){
-        for (int i = 0; i < BackpackList.size(); i++){
-            Backpack b = BackpackList.get(i);
-            for(int j = 0; j < b.pickedList.size();++j){
+    Backpack sex(Backpack best, Backpack nextBest) {
+        Backpack child = new Backpack(p);
 
-                if(p.random(1) < 0.01){
-                    b.pickedList.set(j, main.AllItemList.get((int)p.random(0,main.AllItemList.size()-1))) ;
-                }
-            }
+        for(int i = 0; i<best.itemList.size()/2; ++i) {
+            Item item = new Item(best.itemList.get(i));
+            child.addItemToBackpack(item);
         }
 
-        return bp;
-    }
-    void parring(){
-
-        //Her bliver de muteret med vores funktion. Kig neden under.
-        BackpackList.clear();
-
-        for(int i = 0; i<2000;++i){
-            Backpack bp = sex(mutationSingelOne(BorneBassinet.get(0)), mutationSingelOne(BorneBassinet.get(1)));
-            BackpackList.add(mutationSingelOne(bp));
+        for(int i = nextBest.itemList.size()/2; i<nextBest.itemList.size(); ++i) {
+            Item item = new Item(nextBest.itemList.get(i));
+            child.addItemToBackpack(item);
         }
-    }
-
-    Backpack sex(Backpack best,Backpack nestBest){
-        Backpack newGen = new Backpack(p);
-        for(int j = 0; j < (best.pickedList.size()-1)/2;++j){
-            newGen.pickedList.add(best.pickedList.get(j));
-        }
-
-        for(int i = (best.pickedList.size()-1)/2; i < best.pickedList.size()-1;++i){
-            newGen.pickedList.add(best.pickedList.get(i));
-        }
-
-        return newGen;
+        return child;
     }
 
     void printOutAllInfo(){
-        for(int i = 0 ; i<BackpackList.size()-1;++i){
-            Backpack b = BackpackList.get(i);
+        for(int i = 0; i< backpackList.size()-1; ++i){
+            Backpack b = backpackList.get(i);
             int price = b.calPrize();
-            int weight = b.calWeigth();
+            int weight = b.calWeight();
             String consolPrintout = "Backpack: " + i +" Price: " + price + " Weight: " + weight;
 
             System.out.println(consolPrintout);
@@ -106,7 +131,7 @@ public class GenerationB {
     }
 
     ArrayList<Backpack> getBorneBassinet(){
-        return BorneBassinet;
+        return borneBassinet;
     }
 
     //

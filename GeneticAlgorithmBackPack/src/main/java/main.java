@@ -1,17 +1,15 @@
 import processing.core.PApplet;
 import processing.data.Table;
-
-
-
 import java.util.ArrayList;
-
 
 public class main extends PApplet {
     public static void main(String[] args) {
         PApplet.main("main");
     }
-    public static ArrayList<Item> AllItemList = new ArrayList<Item>();
+
+    public static ArrayList<Item> allItemList = new ArrayList<Item>();
     GenerationB gen = new GenerationB(this);
+    Graph graph = new Graph(this);
     Table itemInfo;
     float dist;
 //!"
@@ -24,22 +22,32 @@ public class main extends PApplet {
     public void setup() {
         background(0);
         makeItem();
-     gen.startgen(2000);
+        gen.startgen(1500);
+        gen.removeBadOnes();
+
         gen.printOutAllInfo();
         System.out.println("\n\n " +
                 "-----------------------------------------------------------------------------------------------------------------------------" +
                 "\n\n");
-        gen.removeBadOne();
-        gen.getParrents();
-        gen.parring();
-        gen.mutataeAll();
-        gen.printOutAllInfo();
 
+        for (int i=0; i<100; ++i) {
+            gen.nextGeneration();
+            int price = gen.getBestPrice();
+            gen.printOutAllInfo();
+            System.out.println("Iteration: " + i + " , price: " + price);
+        }
+
+    /*    gen.removeBadOnes();
+        gen.getParents();
+        gen.parring();
+        gen.mutataeAll();*/
 
     }
 
     @Override
     public void draw() {
+        clear();
+        background(200);
 
 
     }
@@ -49,7 +57,7 @@ public class main extends PApplet {
      /*   findTheBestAndMakePArring();
         System.out.println("vægt: "+BorneBassinet.get(1).calWeigth() + " Prices: " + BorneBassinet.get(1).calPrize() + "\n"
                 +"vægt: "+BorneBassinet.get(1).calWeigth() + " Prices: " + BorneBassinet.get(1).calPrize() + "\n");
-*/      gen.removeBadOne();
+     gen.removeBadOnes();
         gen.getParrents();
         gen.parring();
         gen.mutataeAll();
@@ -60,19 +68,22 @@ public class main extends PApplet {
             dist=0;
         }
 
-       rect(dist,height,10, -gen.getBorneBassinet().get(0).calPrize() /10);
+       rect(dist,height,10, -gen.getBorneBassinet().get(0).calPrize() /10);*/
     }
 
-    void makeItem(){
+    void makeItem() {
         itemInfo = loadTable("genstande.csv");
 
         //Her laves items
-        for(int i = 1; i<itemInfo.getRowCount();++i){
-            AllItemList.add(new Item(itemInfo.getString(i,0),itemInfo.getInt(i,2),itemInfo.getInt(i,1)));
-            System.out.println(AllItemList.get(AllItemList.size()-1).name);
+        for(int i = 1; i<itemInfo.getRowCount(); ++i) {
+            String name = itemInfo.getString(i,0);
+            int weight = itemInfo.getInt(i,1);
+            int price = itemInfo.getInt(i,2);
+
+            Item item = new Item(name, price, weight);
+            allItemList.add(item);
+            System.out.println(item.name);
         }
     }
-/*dkhfgvwr ugbjerahkg orkæg isfjl gy  kj  rsm, n hbftuygnufylæerthnkryjhfhjohjhg,kh gmlnbl,hbnklv bmn,jhlkorfhbjde jhnblbrftlmnedlokmborfjndeakx c*/
-
 
 }
