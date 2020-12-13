@@ -8,6 +8,7 @@ public class ProcGraph extends Graph {
     @Override
     void draw() {
         int x2;
+
         for (int i=0; i<IndputList.size(); ++i) {
 
             int maxList = 0;
@@ -22,10 +23,12 @@ public class ProcGraph extends Graph {
             yInt = ySize*IndputList.get(i).price/maxY;
             x2 = (int) (posX + xInt*i);
 
-            pApplet.text(IndputList.get(i).price ,pApplet.height-(posY- 120),20);
+
 
             pApplet.rect(x2,pApplet.height-(posY- 120),xInt,-yInt);
         }
+
+
 
     }
     }

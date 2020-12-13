@@ -9,9 +9,12 @@ public class main extends PApplet {
 
     public static ArrayList<Item> allItemList = new ArrayList<Item>();
     GenerationB gen = new GenerationB(this);
-    ProcGraph graph = new ProcGraph(this,10,10,1260,700);
+    ProcGraph graph ;
     Table itemInfo;
-    float dist;
+    Axis axisX , axisY ;
+
+    AlmindeligKnap addGen;
+    TextFlet howManyGen;
 //!"
     @Override
     public void settings() {
@@ -20,8 +23,14 @@ public class main extends PApplet {
 
     @Override
     public void setup() {
+        graph = new ProcGraph(this,50,height/2,width-100,height/2);
+        axisY = new Axis(this,50,height/2+120,50,50, true,graph.IndputList,graph.xInt,graph.yInt,50000);
+        axisX = new Axis(this,50,height/2+120,width-50,height/2+120, false,graph.IndputList,graph.xInt,graph.yInt,5);
 
-
+        addGen = new AlmindeligKnap(this,50,height-225,300,75,"Add Generations");
+        howManyGen = new TextFlet(this,50,height-120,300,75,"Add Generations");
+        howManyGen.acceptLetters = false;
+        howManyGen.indput = "1";
         makeItem();
         gen.startgen(1500);
         gen.removeBadOnes();
@@ -31,25 +40,18 @@ public class main extends PApplet {
                 "-----------------------------------------------------------------------------------------------------------------------------" +
                 "\n\n");
 
-        for (int i=0; i<20000; ++i) {
+        for (int i=0; i<10; ++i) {
             gen.nextGeneration();
             int price = gen.getBestPrice();
            // gen.printOutAllInfo();
-            GenData data = new GenData(i,price);
+            GenData data = new GenData(graph.IndputList.size() +1,price);
             graph.IndputList.add(data);
-            System.out.println("Iteration: " + i + ", price: " + price);
 
-            /*for (int k=0; k<gen.backpackList.size(); ++k) {
-                System.out.print(gen.backpackList.get(k).calPrize() + " (" + gen.backpackList.get(k).calWeight() +"), ");
-            }
-            System.out.println();*/
+
+
 
         }
 
-    /*    gen.removeBadOnes();
-        gen.getParents();
-        gen.parring();
-        gen.mutataeAll();*/
 
     }
 
@@ -58,25 +60,43 @@ public class main extends PApplet {
         clear();
         background(200);
         graph.draw();
+        axisY.draw();
+        axisX.draw();
+        addGen.tegnKnap();
+        howManyGen.tegnTextFlet();
+        GenData dat = graph.IndputList.get(graph.IndputList.size()-1);
+        String se = "highest price: " + dat.price + "\nGeneration: " + dat.number;
+        text(se ,900,height-225 +12);
+        if(addGen.klikket){
+           String s = "";
+           if(s.equals(howManyGen.indput))
+               howManyGen.indput = "0";
+
+            for (int i=0; i<Integer.parseInt(howManyGen.indput); ++i) {
+                gen.nextGeneration();
+                int price = gen.getBestPrice();
+                // gen.printOutAllInfo();
+                GenData data = new GenData(graph.IndputList.size() +1,price);
+                graph.IndputList.add(data);
+                System.out.println("Iteration: " + i + ", price: " + price);
+
+
+
+            }
+            addGen.registrerRelease();
+        }
     }
 
     @Override
     public void mouseClicked() {
-     /*   findTheBestAndMakePArring();
-        System.out.println("vægt: "+BorneBassinet.get(1).calWeigth() + " Prices: " + BorneBassinet.get(1).calPrize() + "\n"
-                +"vægt: "+BorneBassinet.get(1).calWeigth() + " Prices: " + BorneBassinet.get(1).calPrize() + "\n");
-     gen.removeBadOnes();
-        gen.getParrents();
-        gen.parring();
-        gen.mutataeAll();
-        dist+=10;
+        addGen.registrerKlik(mouseX,mouseY);
+        howManyGen.KlikTjek(mouseX,mouseY);
 
-        if(dist>=width-10) {
-            clear();
-            dist=0;
-        }
+    }
 
-       rect(dist,height,10, -gen.getBorneBassinet().get(0).calPrize() /10);*/
+    @Override
+    public void keyTyped() {
+        howManyGen.keyindput(key);
     }
 
     void makeItem() {

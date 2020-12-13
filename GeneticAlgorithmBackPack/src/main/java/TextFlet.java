@@ -49,7 +49,7 @@ public class TextFlet {
         p.rect(positionX, positionY, sizeX, sizeY);
 
         p.fill(0);
-        p.textSize(16);
+        p.textSize(12);
         p.text(indput, positionX +(sizeX/16), positionY + (sizeY/2));
         p.text(textFletNavn,positionX, positionY);
     }
